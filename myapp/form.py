@@ -6,6 +6,7 @@ from django.contrib.admin import widgets
 from django.contrib.auth.models import User
 class LoginForm(forms.Form):
     username = forms.CharField(
+
         required=True,
         max_length=25,
         label="用户名:",

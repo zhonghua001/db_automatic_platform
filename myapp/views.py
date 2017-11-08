@@ -5,6 +5,8 @@ from django.template.context import RequestContext
 from django.shortcuts import render,render_to_response
 from django.contrib import auth
 from form import AddForm,LoginForm,Logquery,Uploadform,Captcha,Taskquery,Taskscheduler,Dbgroupform
+
+
 from captcha.fields import CaptchaField,CaptchaStore
 from captcha.helpers import captcha_image_url
 from django.http import HttpResponse,HttpResponseRedirect,StreamingHttpResponse,JsonResponse
@@ -524,7 +526,7 @@ def login(request):
     was_limited = getattr(request, 'limited', False)
     if was_limited:
         form = LoginForm()
-        myform = Captcha()
+        myform = Captcha.fields()
         error = 1
         return render_to_response('login.html', RequestContext(request, {'form': form,
                                                                          'myform':myform,
@@ -553,7 +555,7 @@ def login(request):
                             #login failed
                             func.log_loginfailed(request, username)
                             #request.session["wrong_login"] =  request.session["wrong_login"]+1
-                            return render_to_response('login.html', RequestContext(request, {'form': form,'myform':myform,'password_is_wrong':True}))
+                            return render(request,'login.html', {'form': form,'myform':myform,'password_is_wrong':True})
                     else:
                         return render_to_response('login.html', RequestContext(request, {'form': form,'myform':myform}))
                 else :
@@ -561,10 +563,11 @@ def login(request):
                     form = LoginForm(request.POST)
                     myform = Captcha(request.POST)
                     chaerror = 1
-                    return render_to_response('login.html', RequestContext(request, {'form': form,'myform':myform,'chaerror':chaerror}))
+                    return render(request, 'login.html', {'form': form,'myform':myform,'chaerror':chaerror})
             else:
                 form = LoginForm()
                 myform = Captcha()
+
                 return render(request,'login.html', {'form': form,'myform':myform})
 
 
