@@ -565,7 +565,7 @@ def login(request):
             else:
                 form = LoginForm()
                 myform = Captcha()
-                return render_to_response('login.html', RequestContext(request, {'form': form,'myform':myform}))
+                return render(request,'login.html', {'form': form,'myform':myform})
 
 
 

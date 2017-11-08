@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import  include, url
 from django.contrib import admin
+import views
 admin.autodiscover()
 
-urlpatterns = patterns(
-    'blacklist.views',
-    url(r'^blist/$', 'blist', name='blist'),
-    url(r'^bl_delete/$', 'bl_delete', name='bl_delete'),
-    url(r'^bl_edit/$', 'bl_edit', name='bl_edit'),
-)
+urlpatterns = [
+    url(r'^blist/$', views.blist, name='blist'),
+    url(r'^bl_delete/$', views.bl_delete, name='bl_delete'),
+    url(r'^bl_edit/$', views.bl_edit, name='bl_edit'),
+]

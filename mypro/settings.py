@@ -13,6 +13,11 @@ import os
 import djcelery
 from kombu import Queue,Exchange
 djcelery.setup_loader()
+
+
+
+
+
 BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_IMPORTS = ("myapp.tasks","myapp.include.scheduled","myapp.include.mon")
@@ -120,11 +125,11 @@ WSGI_APPLICATION = 'mypro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',
-        'USER': 'chang',
-        'PASSWORD': 'chang',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': 'db_automatic_platform',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '192.168.134.130',
+        'PORT': '3307',
     }
 }
 

@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+import views
 admin.autodiscover()
 
-urlpatterns = patterns(
-    'mongodb.views',
+urlpatterns = [
     # url(r'^$', 'oms.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^query/$', 'mongodb_query', name='mongodb_query'),
-    url(r'^map/$', 'map', name='map'),
-)
+    url(r'^query/$', views.mongodb_query, name='mongodb_query'),
+    url(r'^map/$', views.map, name='map'),
+]
