@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'blacklist',
     'djcelery',
     'myapp',
+    "mtest",
 ]
 
 # CRONJOBS = [

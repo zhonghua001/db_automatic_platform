@@ -4,7 +4,7 @@ from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
 
 class prpcrypt():
-    key = 'keyskeyskeyskeys'
+    key = 'dFL9406ND2&@9dk#'
     def __init__(self):
         self.mode = AES.MODE_CBC
 
@@ -30,9 +30,9 @@ class prpcrypt():
 
 if __name__ == '__main__':
     pc = prpcrypt()  # 初始化密钥
-    e = pc.encrypt("00000")
+    e = pc.encrypt("dFL9406ND2&@9dk#")
     d = pc.decrypt(e)
     print e, d
-    e = pc.encrypt("000000000000000000asdfasdfadfasfdasfdasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf00000000")
+    e = pc.encrypt("dFL9406ND2&@9dk#")
     d = pc.decrypt(e)
     print e, d

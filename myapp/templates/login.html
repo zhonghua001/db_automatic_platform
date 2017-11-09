@@ -62,12 +62,17 @@
     {#        });#}
     {#    </script>#}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+
+
+
         <div class="modal-dialog">
             <form role="form" action="" method="post">
                 {% csrf_token %}
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="text-center">登录页面</h4>
+                        <h4 class="h4 text-center">登录页面</h4>
                     </div>
                     <div class="modal-body">
                         {% if password_is_wrong %}
@@ -92,6 +97,7 @@
                                 {#                    </tr>#}
                                 <tr>
                                     <td><strong>{{ myform.mycaptcha.label }}</strong> </td>
+
 
                                     <td>{{ myform.mycaptcha }}  </td>
 
@@ -125,7 +131,9 @@
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
-    </div>
+
+
+
 
     <script>
         $(function () { $('#myModal').modal({
