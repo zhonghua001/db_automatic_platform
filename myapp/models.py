@@ -19,6 +19,31 @@ db_type = (
     ('mongodb', 'write'),
 )
 
+permission = (('can_mysql_query','can see mysql_query view'),
+                      ('can_log_query','can see log_query view'),
+                      ('can_see_execview','can see mysql exec view'),
+                      ('can_see_inception', 'can see inception view'),
+                      ('can_see_metadata', 'can see meta_data view'),
+                      ('can_see_mysqladmin', 'can see mysql_admin view'),
+                      ('can_export','can export csv'),
+                      ('can_insert_mysql','can insert mysql'),
+                      ('can_update_mysql','can update mysql'),
+                      ('can_delete_mysql','can delete mysql'),
+                      ('can_create_mysql','can create mysql'),
+                      ('can_drop_mysql','can drop mysql'),
+                      ('can_truncate_mysql','can truncate mysql'),
+                      ('can_alter_mysql','can alter mysql'),
+                      ('can_query_mongo', 'can query mongo'),
+                      ('can_see_taskview', 'can see task view'),
+                      ('can_admin_task','can admin task'),
+                      ('can_delete_task', 'can delete task'),
+                      ('can_update_task', 'can update task'),
+                      ('can_query_pri', 'can query pri'),
+                      ('can_set_pri', 'can set pri'),
+                      ('can_oper_saltapi', 'can oper saltapi'),
+                      )
+
+
 class Db_instance(models.Model):
     ip = models.CharField(max_length=30)
     port = models.CharField(max_length=10)
@@ -92,29 +117,7 @@ class User_profile(models.Model):
     def __unicode__(self):
         return  self.user.username
     class Meta:
-        permissions =(('can_mysql_query','can see mysql_query view'),
-                      ('can_log_query','can see log_query view'),
-                      ('can_see_execview','can see mysql exec view'),
-                      ('can_see_inception', 'can see inception view'),
-                      ('can_see_metadata', 'can see meta_data view'),
-                      ('can_see_mysqladmin', 'can see mysql_admin view'),
-                      ('can_export','can export csv'),
-                      ('can_insert_mysql','can insert mysql'),
-                      ('can_update_mysql','can update mysql'),
-                      ('can_delete_mysql','can delete mysql'),
-                      ('can_create_mysql','can create mysql'),
-                      ('can_drop_mysql','can drop mysql'),
-                      ('can_truncate_mysql','can truncate mysql'),
-                      ('can_alter_mysql','can alter mysql'),
-                      ('can_query_mongo', 'can query mongo'),
-                      ('can_see_taskview', 'can see task view'),
-                      ('can_admin_task','can admin task'),
-                      ('can_delete_task', 'can delete task'),
-                      ('can_update_task', 'can update task'),
-                      ('can_query_pri', 'can query pri'),
-                      ('can_set_pri', 'can set pri'),
-                      ('can_oper_saltapi', 'can oper saltapi'),
-                      )
+        permissions = permission
 
 class Upload(models.Model):
     username = models.CharField(max_length = 40)

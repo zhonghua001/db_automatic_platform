@@ -10,29 +10,43 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 import os
-import djcelery
 from kombu import Queue,Exchange
-djcelery.setup_loader()
 
 
 
+# ^^^ The above is required if you want to import from the celery
+# library.  If you don't have this then `from celery.schedules import`
+# becomes `proj.celery.schedules` in Python 2.x since it allows
+# for relative imports by default.
+
+# Celery settings
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_SERIALIZER = 'json'
 
 
-BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-CELERY_IMPORTS = ("myapp.tasks","myapp.include.scheduled","myapp.include.mon")
-CELERY_QUEUES = (
-    Queue('default',Exchange('default'),routing_key='default'),
-    Queue('mysql_monitor',Exchange('monitor'),routing_key='monitor.mysql'),
-)
-CELERY_ROUTES = {
-    'myapp.include.mon.mon_mysql':{'queue':'mysql_monitor','routing_key':'monitor.mysql'},
-    'myapp.include.mon.check_mysql_host': {'queue': 'mysql_monitor', 'routing_key': 'monitor.mysql'},
-    'myapp.include.mon.sendmail_monitor': {'queue': 'mysql_monitor', 'routing_key': 'monitor.mysql'},
-}
-CELERY_DEFAULT_QUEUE = 'default'
-CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
-CELERY_DEFAULT_ROUTING_KEY = 'default'
+
+#
+# BROKER_URL = 'redis://127.0.0.1:6379/0'
+# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+# CELERY_IMPORTS = ("myapp.tasks","myapp.include.scheduled","myapp.include.mon")
+# CELERY_QUEUES = (
+#     Queue('default',Exchange('default'),routing_key='default'),
+#     Queue('mysql_monitor',Exchange('monitor'),routing_key='monitor.mysql'),
+# )
+# CELERY_ROUTES = {
+#     'myapp.include.mon.mon_mysql':{'queue':'mysql_monitor','routing_key':'monitor.mysql'},
+#     'myapp.include.mon.check_mysql_host': {'queue': 'mysql_monitor', 'routing_key': 'monitor.mysql'},
+#     'myapp.include.mon.sendmail_monitor': {'queue': 'mysql_monitor', 'routing_key': 'monitor.mysql'},
+# }
+# CELERY_DEFAULT_QUEUE = 'default'
+# CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
+# CELERY_DEFAULT_ROUTING_KEY = 'default'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,6 +61,10 @@ SECRET_KEY = 'f+3(9rok*aj*2a$^k3cn3bm^k4-!)8emv%qbuva(9yb^u&51kv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 43200}
+
+CELERYD_MAX_TASKS_PER_CHILD = 40
+
 ALLOWED_HOSTS = ['*']
 
  ##
@@ -59,6 +77,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
+    'django_celery_beat',
     # 'django_crontab',
     'captcha',
     'salt',
@@ -67,7 +87,7 @@ INSTALLED_APPS = [
     'monitor',
     'passforget',
     'blacklist',
-    'djcelery',
+
     'myapp',
     "mtest",
 ]

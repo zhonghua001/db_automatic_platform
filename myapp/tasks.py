@@ -1,4 +1,4 @@
-from celery import task
+from celery import shared_task
 import datetime
 from django.contrib.auth.models import User
 from myapp.models import User_profile,Db_account,Db_instance,Oper_log,Task,Incep_error_log
@@ -7,7 +7,9 @@ from django.core.mail import EmailMessage,send_mail,EmailMultiAlternatives
 from django.template import loader
 from myapp.include.encrypt import prpcrypt
 from mypro.settings import EMAIL_SENDER
-@task
+
+
+@shared_task()
 def process_runtask(hosttag,sqltext,mytask):
     flag = (1 if mytask.backup_status == 1 else 3)
     results,col,tar_dbname = incept.inception_check(hosttag,sqltext,flag)
@@ -37,7 +39,7 @@ def process_runtask(hosttag,sqltext,mytask):
     mytask.save()
     sendmail_task.delay(mytask)
 
-@task
+@shared_task()
 def parse_binlog(insname,binname,begintime,tbname,dbselected,username,countnum,flash_back):
     flag = True
     pc = prpcrypt()
@@ -84,7 +86,7 @@ def parse_binlogfirst(insname,binname,countnum):
 
 
 
-@task
+@shared_task()
 def sendmail_sqlparse(user,db,tb,sqllist,flashback):
     mailto=[]
     if flashback==True:
@@ -95,7 +97,7 @@ def sendmail_sqlparse(user,db,tb,sqllist,flashback):
     html_content = loader.render_to_string('include/mail_template.html', locals())
     sendmail(title, mailto, html_content)
 
-@task
+@shared_task()
 def sendmail_task(task):
     # tmp=u'x'
     try:
@@ -118,7 +120,7 @@ def sendmail_task(task):
     except Exception ,e:
         print e
 
-@task
+@shared_task()
 def sendmail_forget(sendto,title,message):
     mailto=[]
     message=message
@@ -164,3 +166,11 @@ def task_run(idnum,request):
         return 'PLEASE CHECK THE SQL FIRST'
     else:
         return 'Already executed or in running'
+
+
+
+@shared_task()
+def test(x,y):
+    return x*y
+
+
